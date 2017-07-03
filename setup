@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+npm install
+gulp transpile
 echo -e "\033[1;32m Installing Dependencies.....\033[0m "
 echo -e "\033[1;32m Installing fbsimctl.....\033[0m "
 brew tap facebook/fb
