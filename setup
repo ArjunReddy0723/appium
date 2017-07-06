@@ -1,10 +1,18 @@
 #!/usr/bin/env bash
+rm -rf node_modules
 npm install
 gulp transpile
 echo -e "\033[1;32m Installing Dependencies.....\033[0m "
-echo -e "\033[1;32m Installing fbsimctl.....\033[0m "
-brew tap facebook/fb
-brew install fbsimctl --HEAD
+fbsimctl_status="$(which fbsimctl)"
+
+if [[ "$fbsimctl_status" =~ "fbsimctl" ]]; then
+  echo "fbsimctl is already Installed!"
+else
+  echo -e "\033[1;32m Installing fbsimctl.....\033[0m "
+  brew tap facebook/fb
+  brew install fbsimctl --HEAD
+fi
+npm uninstall -g hackpium
 echo -e "\033[1;32m Installing mocha.....\033[0m "
 npm install -g mocha
 echo -e "\033[1;32m Installing gulp.....\033[0m "
@@ -14,9 +22,9 @@ npm install -g gulp-cli
 echo -e "\033[1;32m Installing appium-gulp-plugins.....\033[0m "
 npm install -g appium-gulp-plugins
 echo -e "\033[1;32m Installing appium.....\033[0m "
+node_global="$(npm config get prefix)"
 npm install -g
 
-node_global="$(npm config get prefix)"
 cd ${node_global}/lib/node_modules/hackpium/node_modules/appium-xcuitest-driver && gulp transpile
 cd ${node_global}/lib/node_modules/hackpium/node_modules/appium-ios-simulator && gulp transpile
 cd ${node_global}/lib/node_modules/hackpium/node_modules/node-simctl && gulp transpile
